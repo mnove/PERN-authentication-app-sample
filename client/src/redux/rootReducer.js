@@ -1,9 +1,11 @@
 import { combineReducers } from "redux";
+import colorReducer from "./color/colorReducers";
 
 
 const rootReducer = combineReducers({
-    // cake: cakeReducer,
-    // iceCream: iceCreamReducer,
+
+    color: colorReducer,
+
 });
 
 export default rootReducer;
