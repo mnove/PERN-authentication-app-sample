@@ -34,6 +34,28 @@ export const userApi = {
   },
 
   /**
+   * Get the user's name
+   */
+
+  getUserName: async () => {
+
+    return await resolve(
+      axios({
+        method: "GET",
+        url: "api/user",
+        headers: { "Content-Type": "application/json" },
+        withCredentials: "include", // to get the cookie in every request
+      }).then((res) => {
+        return res.data;
+      })
+    );
+
+
+
+  },
+
+
+  /**
    * Register a new user
    * @param {string} name
    * @param {string} email

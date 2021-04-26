@@ -8,10 +8,12 @@ const resolve = async (promise) => {
     console.log("promise", promise);
     resolved.data = await promise;
   } catch (error) {
+    console.log(error.response);
     console.log(error.response === undefined);
     if (error.response === undefined) {
+      console.error("Network/Server error.");
       resolved.error = {
-        message: "Networtk error. Please try again later",
+        message: "Network error. Please try again later.",
       };
     } else if (error.response) {
       /*
@@ -19,12 +21,24 @@ const resolve = async (promise) => {
        * status code that falls out of the range of 2xx
        */
 
-      // console.log("error...", error.response);
+      console.log("error...", error.response);
       // console.log("error...", error.response.data.message);
       // console.log("error...", error.response.status);
       // console.log("error...", error.response.headers);
+
+      // if there is an error message in the response then assign it to errorMessage
+      // otherwise send generic error message with error status text
+      let errorMessage = null;
+      if (error.response.data.message) {
+        errorMessage = error.response.data.message;
+      } else {
+        console.log();
+        errorMessage = `Request Error /// Status Text: ${error.response.statusText}`;
+      }
+
+      // assign to resolve.error the object that contains key error properties
       resolved.error = {
-        message: error.response.data.message,
+        message: errorMessage,
         status: error.response.status,
         headers: error.response.headers,
       };

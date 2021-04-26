@@ -1,12 +1,16 @@
 const express = require('express');
-const mongoose = require('mongoose');
 require("dotenv").config();
 const morgan = require("morgan");
+const Pool = require("pg").Pool;
 const keys = require('./config/keys');
 const routes = require('./routes/routes')
 const jwt = require('jsonwebtoken');
 const cors = require("cors");
 const cookieParser = require('cookie-parser');
+
+
+// Database Pool (to connect to Postgresql)
+const pool = new Pool(keys.postgresDb);
 
 
 // instance of the express app
@@ -17,6 +21,9 @@ app.use(express.json());
 
 // parsing cookies
 app.use(cookieParser());
+
+// LOGGING middleware
+app.use(morgan("tiny"));
 
 // CORS (for security and credentials from the frontend)
 // in origin you should put the URL of your frontend (in this case is on port 3000 since this is what react uses by default)
@@ -30,24 +37,15 @@ app.use(cors({
 const PORT = 8000;
 
 
-// DATABASE CONFIG
-const dbOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}
-//connect to MongoDB
-mongoose.connect(keys.mongdodb.dbURI, dbOptions, () => {
-    console.log('-- connected to DB - Mongo Atlas --')
-})
 
-// LOGGING middleware
-app.use(morgan("tiny"));
 
 // API ROUTES 
 app.use('/api', routes);
 
-
-
+//TODO FUTURE IMPLEMENTATIONS of Routes
+// app.use('/api', registration);
+// app.use('/api', login);
+// app.use('/api', users);
 
 
 app.listen(PORT, () => {

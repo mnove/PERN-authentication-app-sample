@@ -1,7 +1,9 @@
 // DB_ variables should be put inside a .env file in the project's root folder
 const db_user = process.env.DB_USER;
 const db_password = process.env.DB_PASSWORD;
-const db_url = process.env.DB_URL;
+const db_host = process.env.DB_HOST;
+const db_port = process.env.DB_PORT;
+const db_database = process.env.DB_DATABASE;
 
 // JWT secret variable
 // You should generate your unique secret for the JWT
@@ -10,9 +12,13 @@ const db_url = process.env.DB_URL;
 const secretKey = process.env.JWT_SECRET;
 
 module.exports = {
-  // MongoDB Atlas Database
-  mongdodb: {
-    dbURI: `mongodb+srv://${db_user}:${db_password}@${db_url}`,
+  // Local PostgreSQL Keys
+  postgresDb: {
+    user: db_user,
+    password: db_password,
+    host: db_host,
+    port: db_port,
+    database: db_database,
   },
 
   // JWT secret key (for authentication)
@@ -20,3 +26,5 @@ module.exports = {
     secret: `${secretKey}`,
   },
 };
+
+
