@@ -2,7 +2,14 @@ import React, { Fragment, useState } from "react";
 import {Redirect, withRouter} from "react-router-dom";
 import {userApi} from "../api/user-api";
 
-const Login = (props) => {
+
+// redux
+import { connect } from "react-redux";
+import { loginUser } from "../redux/index";
+
+
+
+const Login = ( props ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,60 +21,32 @@ const Login = (props) => {
     setPassword(e.target.value);
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   //fetch() Async POST Request 
-
-  //   let loggingUser = {
-  //     email: email,
-  //     password: password,
-  //   };
-
-  //   try {
-  //     const options = {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       credentials: 'include', // to get the cookie in every request to get the user authenticated
-  //       body: JSON.stringify(loggingUser),
-  //     };
-
-  //     const response = await fetch("http://localhost:8000/api/login", options);
-
-  //     if (response.ok) {
-  //       const jsonResponse = await response.json();
-  //       props.history.push('/');
-  //       console.log(jsonResponse);
-  //       return jsonResponse;
-  //     }
-      
-  //     throw new Error("Request failed!");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
+    await props.loginUser(email, password);
 
-    //
-
-  
-    const response = await userApi.login(email, password);
-    
-    
-    if (response.error) {
-      // console.log(response);
-      console.log("MESSAGE: ", response.error.message);
-
-    } else {
-      console.log(response.data);
+    if (props.authData.isAuthenticated) {
       props.history.push('/');
     }
 
 
+
+  
+    // const response = await userApi.login(email, password);
+    // if (response.error) {
+    //   // console.log(response);
+    //   console.log("MESSAGE: ", response.error.message);
+    // } else {
+    //   console.log(response.data);
+    //   props.history.push('/');
+    // }
+
+
+
+
+
   };
+
 
   return (
     <Fragment>
@@ -108,4 +87,20 @@ const Login = (props) => {
   );
 };
 
-export default withRouter(Login);
+// REDUX //
+
+// mapping store state to props
+const mapStateToProps = (state) => {
+  return {
+    authData: state.auth,
+  };
+};
+// mapping action creators to props
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loginUser: (email, password) => dispatch(loginUser(email, password)),
+  };
+};
+
+// connect react components to Redux store and React Router
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Login));

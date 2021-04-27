@@ -5,3 +5,4 @@
 // export {buyDonut} from "./donuts/donutActions";
 
 export * from "./color/colorActions";
+export * from "./auth/authActions";
