@@ -1,17 +1,29 @@
 import "./App.css";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import React, {useEffect} from "react";
+
+
 import Nav from "./components/Nav";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import FavoriteColor from "./pages/FavoriteColor";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { ProtectedRoute } from "./components/ProtectedRoute";
+import  ProtectedRoute  from "./components/ProtectedRoute";
 
-function App() {
+// redux
+import { connect } from "react-redux";
+import { verifyUserLogin } from "./redux/index";
+
+function App(props) {
+
+  useEffect(() => {
+    props.checkAuthStatus(); // checking authentication status of user on each reload
+    console.log("reached here")
+  }, []);
+
+
   return (
-    <Provider store={store}>
+    
       <div className="App">
         <BrowserRouter>
           <Nav />
@@ -28,8 +40,25 @@ function App() {
           </Switch>
         </BrowserRouter>
       </div>
-    </Provider>
   );
 }
+// REDUX //
 
-export default App;
+// mapping store state to props
+const mapStateToProps = (state) => {
+  return {
+    authData: state.auth,
+  };
+};
+// mapping action creators to props
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkAuthStatus: () => dispatch(verifyUserLogin()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+
+
+
+

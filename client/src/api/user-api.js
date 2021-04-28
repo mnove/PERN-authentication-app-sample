@@ -33,6 +33,24 @@ export const userApi = {
     );
   },
 
+   /**
+   * Check and verify if the user is logged in and authorized
+   */
+
+    verifyUserIsLoggedIn: async function () {
+  
+      return await resolve(
+        axios({
+          method: "GET",
+          url: "api/verify-auth",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: "include", // to get the cookie in every request
+        }).then((res) => {
+          return res.data;
+        })
+      );
+    },
+
   /**
    * Get the user's name
    */
@@ -49,9 +67,6 @@ export const userApi = {
         return res.data;
       })
     );
-
-
-
   },
 
 

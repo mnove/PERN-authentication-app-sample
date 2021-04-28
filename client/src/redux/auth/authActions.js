@@ -60,6 +60,28 @@ export const loginUser = (email, password) => {
   };
 };
 
+export const verifyUserLogin = () => {
+  return async (dispatch) => {
+    dispatch(loginRequest);
+
+    const response = await userApi.verifyUserIsLoggedIn();
+
+    if (response.error) {
+      // console.log(response);
+      console.log("MESSAGE: ", response.error.message);
+      const errorMsg = response.error.message;
+      dispatch(loginFailure(errorMsg));
+    } else {
+
+      console.log("this is the response of the verifyUserLogin", response);
+
+      // const loginResponse = response.data;
+
+      dispatch(loginSuccess());
+    }
+  };
+};
+
 export const logoutUser = () => {
   return async (dispatch) => {
     dispatch(logoutRequest);
