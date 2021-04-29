@@ -2,7 +2,7 @@
 # About The Project
 
 
-A sample MERN (fullstack) app to demonstrate Authentication with JWT tokens, BCrypt, React and others. 
+A sample PERN  (fullstack) app to demonstrate Authentication with JWT tokens, BCrypt, React and others. 
 
 This is just a sample I used to learn auth with react and node. I am no auth expert so use at your own risk :D 
 
