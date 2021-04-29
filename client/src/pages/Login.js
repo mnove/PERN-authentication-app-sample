@@ -1,17 +1,19 @@
-import React, { Fragment, useState } from "react";
-import {Redirect, withRouter} from "react-router-dom";
-import {userApi} from "../api/user-api";
+import React, { Fragment, useState, useEffect } from "react";
+import { withRouter } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 
 
 // redux
 import { connect } from "react-redux";
 import { loginUser } from "../redux/index";
 
-
-
-const Login = ( props ) => {
+const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  // alerts
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -23,33 +25,54 @@ const Login = ( props ) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
     await props.loginUser(email, password);
 
-    if (props.authData.isAuthenticated) {
-      props.history.push('/');
-    }
+    
 
-
-
-  
-    // const response = await userApi.login(email, password);
-    // if (response.error) {
-    //   // console.log(response);
-    //   console.log("MESSAGE: ", response.error.message);
-    // } else {
-    //   console.log(response.data);
-    //   props.history.push('/');
-    // }
-
-
-
-
-
+    
   };
 
+  useEffect(() => {
+    if (props.auth.error === "") {
+      setShowAlert(false);
+      setAlertMessage("");
+    } else  {
+      setShowAlert(true);
+      
+      setAlertMessage(props.auth.error)
+    }
+  
+    if (props.auth.isAuthenticated) {
+      props.history.push("/");
+    }
+  }, [props.auth.loading]);
+
+  
+  
+
+
+  // Alerts 
+  function renderAlert() {
+    if (showAlert) {
+      return (
+        <Fragment>
+          <Alert
+            variant="danger"
+            onClose={() => setShowAlert(false)}
+            dismissible
+          >
+            <Alert.Heading>{alertMessage}</Alert.Heading>
+            <p></p>
+          </Alert>
+        </Fragment>
+      );
+    }
+  }
 
   return (
     <Fragment>
+    {renderAlert()}
       <main className="form-signin">
         <form onSubmit={handleSubmit}>
           <h1 className="h3 mb-3 fw-normal">Login</h1>
@@ -62,7 +85,7 @@ const Login = ( props ) => {
               placeholder="name@example.com"
               onChange={handleEmail}
             />
-            <label for="floatingInput">Email address</label>
+            <label htmlFor="floatingInput">Email address</label>
           </div>
           <div className="form-floating">
             <input
@@ -72,7 +95,7 @@ const Login = ( props ) => {
               placeholder="Password"
               onChange={handlePassword}
             />
-            <label for="floatingInput">Password</label>
+            <label htmlFor="floatingInput">Password</label>
           </div>
 
           <button className="w-100 btn btn-lg btn-primary" type="submit">
@@ -92,7 +115,7 @@ const Login = ( props ) => {
 // mapping store state to props
 const mapStateToProps = (state) => {
   return {
-    authData: state.auth,
+    auth: state.auth,
   };
 };
 // mapping action creators to props

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { Redirect, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import { userApi } from "../api/user-api";
 import Alert from "react-bootstrap/Alert";
 
@@ -19,7 +19,6 @@ const Register = (props) => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const [redirect, setRedirect] = useState("false");
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -198,7 +197,7 @@ const Register = (props) => {
               placeholder="Your Name"
               onChange={handleName}
             />
-            <label for="floatingName">Name</label>
+            <label htmlFor="floatingName">Name</label>
           </div>
 
           <div className="form-floating">
@@ -209,7 +208,7 @@ const Register = (props) => {
               placeholder="name@example.com"
               onChange={handleEmail}
             />
-            <label for="floatingEmail">Email address</label>
+            <label htmlFor="floatingEmail">Email address</label>
           </div>
 
           <div className="form-floating">
@@ -220,7 +219,7 @@ const Register = (props) => {
               placeholder="Password"
               onChange={handlePassword}
             />
-            <label for="floatingPassword">Password</label>
+            <label htmlFor="floatingPassword">Password</label>
           </div>
 
           <div className="form-floating">
@@ -231,7 +230,7 @@ const Register = (props) => {
               placeholder="FavoriteColor"
               onChange={handleFavoriteColor}
             />
-            <label for="floatingColor">Your Favorite Color</label>
+            <label htmlFor="floatingColor">Your Favorite Color</label>
           </div>
 
           <button className="w-100 btn btn-lg btn-primary" type="submit">

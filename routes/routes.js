@@ -109,41 +109,6 @@ router.post("/login", async (req, res) => {
   }
 });
 
-//
-// AUTHENTICATED ONLY USER route
-//
-
-// router.get("/user", async (req, res) => {
-//   try {
-//     // get the cookie
-//     const cookie = req.cookies["jwt"];
-
-//     // verify the jwt token from the cookie
-//     const claims = jwt.verify(cookie, keys.jwt.secret);
-
-//     if (!claims) {
-//       return res.status(401).send({
-//         message: "not authenticated",
-//       });
-//     }
-
-//     const queryResult = await pool.query(
-//       "SELECT * FROM users WHERE id = $1;",
-//       [claims._id]
-//     );
-
-//     const user = await User.findOne({ _id: claims._id });
-//     const { password, ...data } = await user.toJSON();
-
-//     // return the user's data without the password
-//     res.send(data);
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(401).send({
-//       message: "Not authenticated.",
-//     });
-//   }
-// });
 
 // VERIFY JWT middleware
 
@@ -156,6 +121,7 @@ const verifyJWT = (req, res, next) => {
     if (err) {
       res.status(401).send({
         message: "You are not authorized to access this property.",
+        isAuth: false
       });
     } else {
       //decode the JWT and get the _id value
@@ -169,6 +135,17 @@ const verifyJWT = (req, res, next) => {
   });
 };
 
+
+
+// GET Auth status of the user 
+
+router.get("/verify-auth", verifyJWT, async (req, res) => {
+  res.send({ 
+    message: "Authorized.",
+    isAuth: true
+  })
+})
+
 //
 // GET User Name
 //
@@ -178,15 +155,16 @@ router.get("/user", verifyJWT, async (req, res) => {
 
   try {
     const queryResult = await pool.query(
-      "SELECT name FROM users WHERE id = $1;",
+      "SELECT id, email, name FROM users WHERE id = $1;",
       [userId]
     );
 
-    let userName = queryResult.rows[0].name;
-    console.log(userName);
+    let userData = queryResult.rows[0];
+
+    console.log("query result for user", queryResult.rows[0]);
 
     res.send({
-      name: userName,
+      userData: userData,
     });
   } catch (error) {
     console.log("Error Message: " + error.message, "\n", "Hint: " + error.hint);

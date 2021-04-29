@@ -6,3 +6,4 @@
 
 export * from "./color/colorActions";
 export * from "./auth/authActions";
+export * from "./user/userActions";

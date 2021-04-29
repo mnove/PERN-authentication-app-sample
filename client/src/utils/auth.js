@@ -8,11 +8,3 @@ import { connect } from "react-redux";
     }
 }
 
-// REDUX //
-
-// mapping store state to props
-// const mapStateToProps = (state) => {
-//     return {
-//       colorData: state.color,
-//     };
-//   };

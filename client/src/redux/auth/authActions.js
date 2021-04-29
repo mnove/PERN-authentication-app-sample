@@ -41,7 +41,7 @@ const logoutSuccess = () => {
 
 export const loginUser = (email, password) => {
   return async (dispatch) => {
-    dispatch(loginRequest);
+    dispatch(loginRequest());
 
     const response = await userApi.login(email, password);
 
@@ -62,7 +62,7 @@ export const loginUser = (email, password) => {
 
 export const verifyUserLogin = () => {
   return async (dispatch) => {
-    dispatch(loginRequest);
+    dispatch(loginRequest());
 
     const response = await userApi.verifyUserIsLoggedIn();
 
@@ -91,7 +91,7 @@ export const logoutUser = () => {
     if (response.error) {
       // console.log(response);
       console.log("MESSAGE: ", response.error.message);
-      const errorMsg = response.error.message;
+      // const errorMsg = response.error.message;
       // dispatch(loginFailure(errorMsg));
     } else {
       console.log(response);

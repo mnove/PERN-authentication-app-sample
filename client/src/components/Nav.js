@@ -7,8 +7,10 @@ import { logoutUser } from "../redux/index";
 
 const Nav = (props) => {
   const handleLogout = async () => {
-    props.logoutUser();
+    await props.logoutUser();
+     await props.history.push("/login");
   };
+
   return (
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">

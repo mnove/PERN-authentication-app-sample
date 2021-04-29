@@ -1,30 +1,14 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { userApi } from "../api/user-api";
 
 // redux
-import { useSelector } from "react-redux";
-
-// TODO remove the API call from the component and get the data from the store 
-// TODO conditionally render the main content only if the user is Auth.
+import { connect } from "react-redux";
+import { getUserData } from "../redux/index";
 
 const Home = (props) => {
-  const [name, setName] = useState("");
-
   useEffect(() => {
     const getData = async () => {
-      const response = await userApi.getUserName();
-
-      if (response.error) {
-        // console.log(response);
-        console.error("ERROR MESSAGE: ", response.error.message);
-        console.error("ERROR STATUS: ", response.error.status);
-      } else {
-        console.log(response);
-        const username = response.data.userData.name;
-        setName(username);
-        props.history.push("/");
-      }
+      props.getUserData();
     };
 
     getData();
@@ -32,13 +16,39 @@ const Home = (props) => {
 
   return (
     <Fragment>
-      <h1>Hi {name}, welcome back!</h1>
-
-      <Link className="btn btn-primary btn-lg" to="/favorite-color">
-        Get favorite color
-      </Link>
+      {console.log(props.user.data.userData.name)}
+      {props.user.data.userData.name ? (
+        <>
+          <h1>Hi {props.user.data.userData.name}, welcome back!</h1>
+          <Link className="btn btn-primary btn-lg" to="/favorite-color">
+            Get favorite color
+          </Link>
+        </>
+      ) : (
+        <>
+          <h1>Hi!</h1>
+          <p>You need to login first to view this page.</p>
+          <Link to="/login"> Go to Login</Link>
+        </>
+      )}
     </Fragment>
   );
 };
 
-export default Home;
+// REDUX //
+
+// mapping store state to props
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+// mapping action creators to props
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getUserData: () => dispatch(getUserData()),
+  };
+};
+
+// connect react components to Redux store
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

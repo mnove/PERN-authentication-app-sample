@@ -4,7 +4,6 @@ import {
   GET_FAVORITE_COLOR_FAILURE,
 } from "./colorTypes";
 
-import axios from "axios";
 import { userApi } from "../../api/user-api";
 
 const getFavoriteColorRequest = () => {

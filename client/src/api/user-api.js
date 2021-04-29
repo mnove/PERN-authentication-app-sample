@@ -52,10 +52,10 @@ export const userApi = {
     },
 
   /**
-   * Get the user's name
+   * Get the user's data
    */
 
-  getUserName: async () => {
+  getUserData: async () => {
 
     return await resolve(
       axios({
