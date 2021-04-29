@@ -4,17 +4,19 @@
 
 A sample MERN (fullstack) app to demonstrate Authentication with JWT tokens, BCrypt, React and others. 
 
+This is just a sample I used to learn auth with react and node. I am no auth expert so use at your own risk :D 
 
 ### Built with:
 
 BACKEND (Database)
-* MongoDB Atlas 
-* Mongoose (to write queries and interact with Mongo Atlas in general)
+* Postgresql
+* node-postgres (pg)
 
 
 BACKEND (Server)
 * NodeJS
 * Express ^4 (middleware)
+* Nodemon (for hot reloding)
 * Bcrypt (for password hashing).
 * jsonwebtokens (or JWT) (for authentication purposes)
 * cookieparser (parsing cookies middleware)
@@ -28,19 +30,25 @@ FRONTEND (Client)
 * Axios (for Http requests)
 * Bootstrap 4 
 
+# Before you Install
 
+Prerequisites 
+* Have Node installed on your machine
+* Have a local Postgres server installed and running 
+* (Optional) Have PGAdmin4 installed and ready to run queries. Alternatively can just use the terminal or psql.  
 
 <!-- GETTING STARTED -->
-# Setup
+# Installation
 
 First, clone the repo using the command:
 ```sh
   git clone
   ```
 
-### Set up (free) MongoDB Atlas 
+### Set up (free) Postgres locally 
 
-Since this app is using MongoDB Atlas (Free tier is ok) as a dabatase you will need first so set up an account (if you do not have one) and a database's collection. 
+Make sure you have Postgres installed and running locally.
+Now, run the sql commands in the sql folder (sql > create_table.sql) to create the tables needed to run the application.
 
 
 ### Create and edit a .env file to store private keys, etc..
@@ -57,8 +65,9 @@ Here's an example of how the .env file can look like:
    JWT_SECRET = <put the secret JWT random string here>
 
    ```
+Note: to create a good JWT secret, check the comments in keys.js
 
-### Run npm install to install dependencies
+### Install all dependencies
 
 Navigate to the project directory and run this command 
 ```sh
@@ -74,9 +83,16 @@ Navigate to the project directory and run this command
   npm start 
   ```  
 
-### Start the react app
+### Start the server (Node)
 
-Navigate to the client folder and run this command 
+Navigate to the Root folder and run this command:
+```sh
+  npm start
+  ```     
+
+### Start the client (React app)
+
+Navigate to the Client folder and run this command 
 ```sh
   npm start
   ```    
@@ -87,7 +103,8 @@ Navigate to the client folder and run this command
 * Clean-up unused components and react alerts
 * Refactor React code to improve maintainability
 * Add inline comments to explain all major steps in the code
-* Check resolver functions in the client for error handling (the one in use now works but I think it can be improved / simplified )
+* Check resolver functions in the client for error handling (the one in use now works but 
+
 
 
 <!-- LICENSE -->
