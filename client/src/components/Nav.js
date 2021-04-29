@@ -1,46 +1,20 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { userApi } from "../api/user-api";
+import { Link, withRouter } from "react-router-dom";
 
-const Nav = () => {
+// redux
+import { connect } from "react-redux";
+import { logoutUser } from "../redux/index";
 
+const Nav = (props) => {
+  const handleLogout = async () => {
+    await props.logoutUser();
+     await props.history.push("/login");
+  };
 
-    const handleLogout = async () => {
-       
-
-        // try {
-
-        //     const response = await axios.get("http://localhost:8000/api/logout", {
-        //         method: "get",
-        //         headers: { "Content-Type": "application/json" },
-        //         withCredentials: 'include',
-        //     })
-
-        //     console.log(response);
-            
-        // } catch (error) {
-        //     console.error(error);
-        // }
-
-        const response = await userApi.logout();
-
-        if (response.error) {
-          // console.log(response);
-          console.log("MESSAGE: ", response.error.message);
-    
-        } else {
-          console.log(response.data);
-        }
-        
-
-    }
   return (
     <Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
-      
-
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
               <Link className="nav-link" to="/">
@@ -64,4 +38,14 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+// REDUX //
+
+// mapping action creators to props
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutUser: () => dispatch(logoutUser()),
+  };
+};
+
+// connect react components to Redux store and React Router
+export default withRouter(connect(null, mapDispatchToProps)(Nav));

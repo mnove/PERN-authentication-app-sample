@@ -42,7 +42,7 @@ const PORT = 8000;
 // API ROUTES 
 app.use('/api', routes);
 
-//TODO FUTURE IMPLEMENTATIONS of Routes
+//TODO FUTURE IMPLEMENTATIONS of Routes to keep things organized 
 // app.use('/api', registration);
 // app.use('/api', login);
 // app.use('/api', users);
@@ -51,6 +51,7 @@ app.use('/api', routes);
 app.listen(PORT, () => {
   console.log(`<<< SERVER STARTED on port ${PORT} >>>`);
 });
+
 
 
 

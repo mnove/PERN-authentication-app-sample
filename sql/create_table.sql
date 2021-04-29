@@ -1,6 +1,6 @@
 
 --Create a table to store the users' data:
---Should run this command when installing the app
+--Should run these sql commands when installing the app
 
 CREATE TABLE users (
 	id BIGSERIAL NOT NULL PRIMARY KEY,

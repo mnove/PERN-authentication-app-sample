@@ -1,5 +1,5 @@
 import resolve from "../utils/resolver";
-// import axios from "axios";
+
 
 const axios = require("axios").create({
   baseURL: "http://localhost:8000/",
@@ -33,11 +33,29 @@ export const userApi = {
     );
   },
 
-  /**
-   * Get the user's name
+   /**
+   * Check and verify if the user is logged in and authorized
    */
 
-  getUserName: async () => {
+    verifyUserIsLoggedIn: async function () {
+  
+      return await resolve(
+        axios({
+          method: "GET",
+          url: "api/verify-auth",
+          headers: { "Content-Type": "application/json" },
+          withCredentials: "include", // to get the cookie in every request
+        }).then((res) => {
+          return res.data;
+        })
+      );
+    },
+
+  /**
+   * Get the user's data
+   */
+
+  getUserData: async () => {
 
     return await resolve(
       axios({
@@ -49,9 +67,6 @@ export const userApi = {
         return res.data;
       })
     );
-
-
-
   },
 
 
